@@ -1,0 +1,59 @@
+# SCP Plugin Configuration
+# Advanced SCP events and optimization system
+
+# Moon Event Settings
+moon-events:
+  full-moon:
+    # Chance for SCP event during full moon (0.0 - 1.0)
+    chance: 0.15
+    enabled: true
+  half-moon:
+    # Chance for Fisher spawning during half moon (0.0 - 1.0)
+    chance: 0.25
+    enabled: true
+
+# SCP Mob Variant Settings
+scp-mobs:
+  # Damage dealt by SCP variants (in half hearts)
+  damage: 4.0
+  # Health multiplier for SCP variants
+  health-multiplier: 2.0
+  # Speed boost level (0-5)
+  speed-boost: 1
+  # Damage resistance level (0-5)
+  resistance: 0
+
+# Fisher Mob Settings
+fisher:
+  # Number of Fishers to spawn per chunk
+  spawn-count-per-chunk: 2
+  # Fisher health points
+  health: 60.0
+  # Fisher attack damage
+  damage: 8.0
+  # Range for hooking players
+  hook-range: 8.0
+  # Chance to hook nearby players per tick
+  hook-chance: 0.05
+
+# Lag Optimization Settings
+lag-optimizer:
+  # Enable automatic lag optimization
+  enabled: true
+  # Maximum entities allowed per chunk
+  max-entities-per-chunk: 50
+  # Maximum items allowed per chunk
+  max-items-per-chunk: 30
+  # Maximum experience orbs per chunk
+  max-exp-orbs-per-chunk: 20
+  # Time before items despawn (in ticks, 20 ticks = 1 second)
+  item-despawn-time: 6000
+  # How often to run optimization (in ticks)
+  check-interval: 600
+
+# Sky Effects (Advanced)
+sky-effects:
+  # Enable custom sky rendering during events
+  enabled: true
+  # Black and white neon effect intensity
+  neon-intensity: 0.8

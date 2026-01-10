@@ -1,0 +1,21 @@
+name: SCPPlugin
+version: 1.0.0
+main: com.scp.SCPPlugin
+api-version: 1.19
+author: YourName
+description: SCP Plugin with moon events and custom mobs
+
+commands:
+  scp:
+    description: SCP plugin commands
+    usage: /scp <halfmoon|fullmoon|disable>
+    permission: scp.admin
+  scppanel:
+    description: Open SCP management panel
+    usage: /scppanel
+    permission: scp.admin
+
+permissions:
+  scp.admin:
+    description: Admin permissions for SCP plugin
+    default: op
