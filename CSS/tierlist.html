@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>UNSTABLE FFA TIERS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0b1623;
+            --card: #0f1e2d;
+            --card2: #13283c;
+            --accent: #1f6feb;
+            --gold: #ffb700;
+            --text: #e6edf3;
+            --muted: #8b9bb0;
+            --red: #f85149;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: linear-gradient(180deg, #08111b, #0b1623);
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+        }
+
+        /* NAV */
+        .nav {
+            background: #0c1a28;
+            border-bottom: 1px solid #1e2d3d;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 900;
+            background: linear-gradient(90deg, #7cff00, #ffb700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            font-weight: 600;
+            color: var(--muted);
+        }
+
+        .nav-links span.active {
+            color: white;
+        }
+
+        /* TABLE */
+        .container {
+            padding: 40px;
+        }
+
+        .header-row {
+            display: grid;
+            grid-template-columns: 80px 1fr 120px 500px;
+            color: var(--muted);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            display: grid;
+            grid-template-columns: 80px 1fr 120px 500px;
+            align-items: center;
+            background: var(--card);
+            border: 1px solid #1e2d3d;
+            border-radius: 14px;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            transition: .2s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            background: var(--card2);
+        }
+
+        .rank {
+            font-size: 30px;
+            font-weight: 900;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+        .player {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .player img {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+        }
+
+        .player-name {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .title {
+            font-size: 14px;
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .points {
+            color: var(--muted);
+        }
+
+        .region {
+            background: rgba(248, 81, 73, .15);
+            color: var(--red);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 800;
+            text-align: center;
+            width: 60px;
+        }
+
+        .tiers {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tier {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #1e2d3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #2a3f55;
+        }
+
+        .badge {
+            margin-top: 4px;
+            font-weight: 900;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #1c1910;
+            color: var(--gold);
+        }
+
+        /* ===== MODAL ===== */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 10, 20, 0.75);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: .25s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            width: 380px;
+            background: #0f1e2d;
+            border: 1px solid #1e2d3d;
+            border-radius: 18px;
+            padding: 30px 25px;
+            transform: scale(.85);
+            opacity: 0;
+            transition: .25s cubic-bezier(.2, .8, .2, 1);
+            position: relative;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #16293d;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .modal-avatar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-avatar img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--gold);
+        }
+
+        .modal-name {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .modal-title {
+            text-align: center;
+            font-size: 13px;
+            background: #1c1910;
+            color: var(--gold);
+            padding: 4px 10px;
+            border-radius: 8px;
+            width: fit-content;
+            margin: 8px auto;
+        }
+
+        .modal-section {
+            margin-top: 20px;
+        }
+
+        .modal-position {
+            background: #13283c;
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="nav">
+        <div class="logo">UNSTABLE FFA TIERS</div>
+        <div class="nav-links">
+            <span>Home</span>
+            <span class="active">Rankings</span>
+            <span>Discords</span>
+            <span>API Docs</span>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="header-row">
+            <div>#</div>
+            <div>PLAYER</div>
+            <div>REGION</div>
+            <div>TIERS</div>
+        </div>
+
+        <!-- #1 SEZ -->
+        <div class="card" onclick="openModal(players[0])">
+            <div class="rank">1.</div>
+            <div class="player">
+                <img src="https://mc-heads.net/head/sez/100">
+                <div>
+                    <div class="player-name">sez</div>
+                    <div class="title">Combat Grandmaster <span class="points">(999 points)</span></div>
+                </div>
+            </div>
+            <div class="region">NA</div>
+            <div class="tiers">
+                <div class="tier">
+                    <div class="icon">⚔️</div>
+                    <div class="badge">HT1</div>
+                </div>
+                <div class="tier">
+                    <div class="icon">🪓</div>
+                    <div class="badge">HT1</div>
+                </div>
+                <div class="tier">
+                    <div class="icon">🔮</div>
+                    <div class="badge">HT1</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- #2 Marlowww -->
+        <div class="card" onclick="openModal(players[1])">
+            <div class="rank">2.</div>
+            <div class="player">
+                <img src="https://mc-heads.net/head/Marlowww/100">
+                <div>
+                    <div class="player-name">Marlowww</div>
+                    <div class="title">Combat Grandmaster <span class="points">(435 points)</span></div>
+                </div>
+            </div>
+            <div class="region">NA</div>
+            <div class="tiers">
+                <div class="tier">
+                    <div class="icon">🛡️</div>
+                    <div class="badge">HT1</div>
+                </div>
+                <div class="tier">
+                    <div class="icon">🪓</div>
+                    <div class="badge">LT1</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <div class="modal-close" onclick="closeModal()">✕</div>
+            <div class="modal-avatar"><img id="modalAvatar"></div>
+            <div class="modal-name" id="modalName"></div>
+            <div class="modal-title" id="modalTitle"></div>
+
+            <div class="modal-section">
+                <div class="modal-position">
+                    <span id="modalRank"></span>
+                    <span id="modalPoints"></span>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <div class="tiers" id="modalTiers"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const players = [
+            {
+                name: "sez",
+                title: "Combat Grandmaster",
+                rank: "#1 Overall",
+                points: "999 Points",
+                avatar: "https://mc-heads.net/head/sez/100",
+                tiers: [
+                    { icon: "⚔️", label: "HT1" },
+                    { icon: "🪓", label: "HT1" },
+                    { icon: "🔮", label: "HT1" }
+                ]
+            },
+            {
+                name: "Marlowww",
+                title: "Combat Grandmaster",
+                rank: "#2 Overall",
+                points: "435 Points",
+                avatar: "https://mc-heads.net/head/Marlowww/100",
+                tiers: [
+                    { icon: "🛡️", label: "HT1" },
+                    { icon: "🪓", label: "LT1" }
+                ]
+            }
+        ];
+
+        function openModal(data) {
+            document.getElementById("modalName").innerText = data.name;
+            document.getElementById("modalTitle").innerText = data.title;
+            document.getElementById("modalRank").innerText = data.rank;
+            document.getElementById("modalPoints").innerText = data.points;
+            document.getElementById("modalAvatar").src = data.avatar;
+
+            const tiers = document.getElementById("modalTiers");
+            tiers.innerHTML = "";
+            data.tiers.forEach(t => {
+                tiers.innerHTML += `
+        <div class="tier">
+            <div class="icon">${t.icon}</div>
+            <div class="badge">${t.label}</div>
+        </div>`;
+            });
+
+            document.getElementById("modal").classList.add("active");
+        }
+
+        function closeModal() {
+            document.getElementById("modal").classList.remove("active");
+        }
+
+        document.getElementById("modal").addEventListener("click", function (e) {
+            if (e.target.id === "modal") closeModal();
+        });
+    </script>
+
+</body>
+
+</html>

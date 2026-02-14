@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+        :root {
+            --bg-dark: #0b0e11;
+            --nav-bg: #111418;
+            --row-bg: #161b22;
+            --border: #21262d;
+            --text-white: #f0f6fc;
+            --text-grey: #8b949e;
+            --gold: #ffb700;
+            --blue: #58a6ff;
+            --red: #f85149;
+            --card-hover: #1c2128;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- TOP NAVIGATION BAR --- */
+        .top-nav {
+            width: 100%;
+            background: var(--nav-bg);
+            padding: 15px 0;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-content {
+            width: 1000px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 18px;
+            letter-spacing: 1px;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        /* --- GAMEMODE TABS NAVIGATION --- */
+        .tabs-container {
+            display: flex;
+            gap: 10px;
+            margin: 25px 0;
+            width: 1000px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .tab {
+            background: #1c2128;
+            padding: 10px 18px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-grey);
+            border: 1px solid transparent;
+            min-width: 65px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .tab:hover {
+            background: #2d333b;
+        }
+
+        .tab.active {
+            background: var(--row-bg);
+            border-color: var(--text-white);
+            color: white;
+        }
+
+        .tab-icon {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        /* --- LEADERBOARD --- */
+        .leaderboard {
+            width: 1000px;
+        }
+
+        .header-labels {
+            display: grid;
+            grid-template-columns: 50px 55px 1fr 100px 380px;
+            padding: 0 20px 10px 20px;
+            font-size: 11px;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 50px 55px 1fr 100px 380px;
+            align-items: center;
+            background: var(--row-bg);
+            border: 1px solid var(--border);
+            padding: 12px 20px;
+            margin-bottom: 6px;
+            border-radius: 4px;
+        }
+
+        .rank-num {
+            font-size: 28px;
+            font-weight: 900;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.1);
+        }
+
+        .face-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .face-box img {
+            width: 120%;
+            height: auto;
+            image-rendering: pixelated;
+        }
+
+        .player-data {
+            padding-left: 15px;
+        }
+
+        .username {
+            font-size: 20px;
+            font-weight: 800;
+            display: block;
+        }
+
+        .title-line {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            margin-top: 2px;
+        }
+
+        .title-gm {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .points {
+            color: var(--blue);
+        }
+
+        .region {
+            background: rgba(248, 81, 73, 0.15);
+            color: var(--red);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(248, 81, 73, 0.2);
+            width: fit-content;
+        }
+
+        .tiers-list {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .tier-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .icon-circle {
+            width: 30px;
+            height: 30px;
+            background: #21262d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #30363d;
+            font-size: 16px;
+        }
+
+        .tier-tag {
+            font-size: 9px;
+            font-weight: 900;
+            padding: 1px 5px;
+            border-radius: 2px;
+            background: #1c1910;
+            color: var(--gold);
+            border: 1px solid #4d3d1a;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-nav">
+        <div class="nav-content">
+            <div class="logo">MCTIERS</div>
+        </div>
+    </div>
+
+    <div class="tabs-container">
+        <div class="tab active"><span class="tab-icon">🏆</span>Overall</div>
+        <div class="tab"><span class="tab-icon">⚔️</span>LTMs</div>
+        <div class="tab"><span class="tab-icon">💎</span>Vanilla</div>
+        <div class="tab"><span class="tab-icon">❤️</span>UHC</div>
+        <div class="tab"><span class="tab-icon">🧪</span>Pot</div>
+        <div class="tab"><span class="tab-icon">🟣</span>NethOP</div>
+        <div class="tab"><span class="tab-icon">🟢</span>SMP</div>
+        <div class="tab"><span class="tab-icon">🗡️</span>Sword</div>
+        <div class="tab"><span class="tab-icon">🪓</span>Axe</div>
+        <div class="tab"><span class="tab-icon">🔨</span>Mace</div>
+    </div>
+
+    <div class="leaderboard">
+        <div class="header-labels">
+            <span>#</span>
+            <span></span>
+            <span>Player</span>
+            <span>Region</span>
+            <span style="text-align: right;">Tiers</span>
+        </div>
+
+        <div class="row">
+            <div class="rank-num">1.</div>
+            <div class="face-box"><img src="https://mc-heads.net/head/sez/100"></div>
+            <div class="player-data">
+                <span class="username">sez</span>
+                <div class="title-line">
+                    <span style="color:var(--gold)">✦</span>
+                    <span class="title-gm">Combat Grandmaster</span>
+                    <span class="points">(999 points)</span>
+                </div>
+            </div>
+            <div class="region">NA</div>
+            <div class="tiers-list">
+                <div class="tier-unit">
+                    <div class="icon-circle">⚔️</div>
+                    <div class="tier-tag">HT1</div>
+                </div>
+                <div class="tier-unit">
+                    <div class="icon-circle">🪓</div>
+                    <div class="tier-tag">HT1</div>
+                </div>
+                <div class="tier-unit">
+                    <div class="icon-circle">🔮</div>
+                    <div class="tier-tag">HT1</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
