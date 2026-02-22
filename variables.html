@@ -6,12 +6,31 @@
     <title>Document</title>
 </head>
 <body>
-    <h1 id="output"></h1>
+    <h1>operator</h1>
+    <p id="demo"></p>
+    <p id="demo1"></p>
+    <p id="demo2"></p>
+    <p id="demo3"></p>
+    <p id="demo4"></p>
+
+    <!--Addition-->
 
     <script>
-        var a = 1040420440242424;
-        var b = 427285852582752578258725;
-        document.getElementById("output").innerHTML = "the Sum Is " + (a+b);
+        var x = 5;
+        var y = 2;
+        var z = x + y;
+        var a = x - y;
+        var b = x * y;
+        var c = x / y;
+        var d = x % y;
+        document.getElementById("demo").innerHTML = "the sum is " + z;
+
+         document.getElementById("demo").innerHTML = "the difference is " + a;
+         document.getElementById("demo1").innerHTML = "the sum is " + b;
+         document.getElementById("demo2").innerHTML = "the sum is " + c;
+         document.getElementById("demo3").innerHTML = "the sum is " + b;
+         document.getElementById("demo4").innerHTML = "the sum is " + b;
+          document.getElementById("demo").innerHTML = "the sum is " + d;
     </script>
 </body>
 </html>
