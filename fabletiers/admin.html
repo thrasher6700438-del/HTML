@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Fable Tiers Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .admin-container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        .admin-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--accent);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: none;
+            background: #1e2d3d;
+            color: var(--text);
+        }
+
+        .tiers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .tier-item {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tier-item input {
+            flex: 1;
+        }
+
+        button {
+            padding: 8px 14px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .player-preview {
+            margin-top: 25px;
+        }
+
+        .player-preview h3 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .preview-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-hover);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .preview-card div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .preview-card img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .remove-player-btn {
+            background: #fd5c63;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container">
+        <h2>Fable Tiers Admin Panel</h2>
+
+        <div class="form-group">
+            <label>Gamemode</label>
+            <select id="gamemodeSelect">
+                <option value="overall">Overall</option>
+                <option value="mace">MACE</option>
+                <option value="nethpot">NethPot</option>
+                <option value="smp">SMP Kit</option>
+                <option value="diapot">Diapot</option>
+                <option value="axe">Axe</option>
+                <option value="sword">Sword</option>
+                <option value="uhc">UHC</option>
+                <option value="crystal">Crystal</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Player Name</label>
+            <input type="text" id="playerName">
+        </div>
+
+        <div class="form-group">
+            <label>Avatar URL (optional)</label>
+            <input type="text" id="playerAvatar" placeholder="Leave blank for MC head">
+        </div>
+
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="playerTitle">
+        </div>
+
+        <div class="form-group">
+            <label>Points</label>
+            <input type="number" id="playerPoints" value="0">
+        </div>
+
+        <div class="form-group">
+            <label>Region</label>
+            <input type="text" id="playerRegion" placeholder="NA">
+        </div>
+
+        <div class="form-group">
+            <label>Tiers</label>
+            <div class="tiers-list" id="tiersList"></div>
+            <button type="button" id="addTierBtn">Add Tier</button>
+        </div>
+
+        <button id="savePlayerBtn">Add Player</button>
+
+        <div class="player-preview">
+            <h3>Players in Selected Gamemode</h3>
+            <div id="previewList"></div>
+        </div>
+    </div>
+
+    <script>
+        const gamemodes = ["overall", "mace", "nethpot", "smp", "diapot", "axe", "sword", "uhc", "crystal"];
+        let playersData = JSON.parse(localStorage.getItem("playersData")) || {};
+        gamemodes.forEach(mode => { if (!playersData[mode]) playersData[mode] = []; });
+
+        const tiersList = document.getElementById("tiersList");
+        const addTierBtn = document.getElementById("addTierBtn");
+        const gamemodeSelect = document.getElementById("gamemodeSelect");
+        const previewList = document.getElementById("previewList");
+
+        function updatePreview() {
+            previewList.innerHTML = "";
+            const mode = gamemodeSelect.value;
+            playersData[mode].forEach((p, i) => {
+                const div = document.createElement("div");
+                div.className = "preview-card";
+                div.innerHTML = `
+                    <div>
+                        <div>${i + 1}.</div>
+                        <img src="${p.avatar || `https://mc-heads.net/head/${encodeURIComponent(p.name)}/100`}">
+                        <div>${p.name} (${p.points} pts)</div>
+                    </div>
+                    <button class="remove-player-btn">Remove</button>
+                `;
+                div.querySelector(".remove-player-btn").addEventListener("click", () => {
+                    if (confirm(`Remove ${p.name} from ${mode}?`)) {
+                        playersData[mode].splice(i, 1);
+                        localStorage.setItem("playersData", JSON.stringify(playersData));
+                        updatePreview();
+                        window.dispatchEvent(new Event('storage')); // trigger index.html update if open
+                    }
+                });
+                previewList.appendChild(div);
+            });
+        }
+
+        addTierBtn.addEventListener("click", () => {
+            const div = document.createElement("div");
+            div.className = "tier-item";
+            div.innerHTML = `
+                <input type="text" placeholder="Tier Label (e.g., HT1)">
+                <input type="text" placeholder="Tier Icon URL">
+                <button type="button" class="remove-tier">✕</button>
+            `;
+            tiersList.appendChild(div);
+            div.querySelector(".remove-tier").addEventListener("click", () => div.remove());
+        });
+
+        document.getElementById("savePlayerBtn").addEventListener("click", () => {
+            const gamemode = gamemodeSelect.value;
+            const name = document.getElementById("playerName").value.trim();
+            if (!name) return alert("Player name required");
+
+            let tiers = [];
+            document.querySelectorAll("#tiersList .tier-item").forEach(t => {
+                const label = t.querySelector("input:nth-child(1)").value.trim();
+                const icon = t.querySelector("input:nth-child(2)").value.trim();
+                if (label && icon) tiers.push({ label, icon });
+            });
+
+            const player = {
+                name: name,
+                avatar: document.getElementById("playerAvatar").value.trim() || null,
+                title: document.getElementById("playerTitle").value.trim(),
+                points: parseInt(document.getElementById("playerPoints").value) || 0,
+                region: document.getElementById("playerRegion").value.trim() || 'NA',
+                tiers
+            };
+
+            playersData[gamemode].push(player);
+            localStorage.setItem("playersData", JSON.stringify(playersData));
+
+            // Clear form
+            document.getElementById("playerName").value = '';
+            document.getElementById("playerAvatar").value = '';
+            document.getElementById("playerTitle").value = '';
+            document.getElementById("playerPoints").value = 0;
+            document.getElementById("playerRegion").value = '';
+            tiersList.innerHTML = '';
+
+            updatePreview();
+            alert(`Player ${name} added to ${gamemode.toUpperCase()}`);
+            window.dispatchEvent(new Event('storage')); // trigger index.html update if open
+        });
+
+        gamemodeSelect.addEventListener("change", updatePreview);
+        updatePreview(); // initial preview
+    </script>
+</body>
+
+</html>

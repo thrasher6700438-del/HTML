@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Fable Tiers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="nav">
+        <div class="logo">Fable Tiers</div>
+        <div class="nav-links">
+            <a href="https://discord.gg/knCPfRsV" target="_blank" class="discord-btn">Discord</a>
+            <button id="copyIPBtn" class="copy-ip-btn">Copy IP</button>
+        </div>
+    </div>
+
+    <!-- Gamemode Tabs -->
+    <div class="gamemodes" id="gamemodeTabs">
+        <div class="gamemode-tab active" data-mode="overall">
+            <img src="https://mctiers.com/tier_icons/overall.svg" class="gm-icon">
+            Overall
+        </div>
+        <div class="gamemode-tab" data-mode="mace">
+            <img src="https://mctiers.com/tier_icons/mace.svg" class="gm-icon">
+            MACE
+        </div>
+        <div class="gamemode-tab" data-mode="nethpot">
+            <img src="https://mctiers.com/tier_icons/nethop.svg" class="gm-icon">
+            NethPot
+        </div>
+        <div class="gamemode-tab" data-mode="smp">
+            <img src="https://mctiers.com/tier_icons/smp.svg" class="gm-icon">
+            SMP Kit
+        </div>
+        <div class="gamemode-tab" data-mode="diapot">
+            <img src="https://mctiers.com/tier_icons/2v2.svg" class="gm-icon">
+            Diapot
+        </div>
+        <div class="gamemode-tab" data-mode="axe">
+            <img src="https://mctiers.com/tier_icons/axe.svg" class="gm-icon">
+            Axe
+        </div>
+        <div class="gamemode-tab" data-mode="sword">
+            <img src="https://mctiers.com/tier_icons/sword.svg" class="gm-icon">
+            Sword
+        </div>
+        <div class="gamemode-tab" data-mode="uhc">
+            <img src="https://mctiers.com/tier_icons/uhc.svg" class="gm-icon">
+            UHC
+        </div>
+        <div class="gamemode-tab" data-mode="crystal">
+            <img src="https://mctiers.com/tier_icons/vanilla.svg" class="gm-icon">
+            Crystal
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header-row">
+            <div>#</div>
+            <div>PLAYER</div>
+            <div>REGION</div>
+            <div>TIERS</div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <div class="modal-close" onclick="closeModal()">✕</div>
+            <div class="modal-avatar"><img id="modalAvatar"></div>
+            <div class="modal-name" id="modalName"></div>
+            <div class="modal-title" id="modalTitle"></div>
+            <div class="modal-section">
+                <div class="modal-position">
+                    <span id="modalRank"></span>
+                    <span id="modalPoints"></span>
+                </div>
+            </div>
+            <div class="modal-section">
+                <div class="tiers" id="modalTiers"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

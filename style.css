@@ -1,0 +1,263 @@
+:root {
+    --bg: #0073ff;
+    --card: #8601017c;
+    --card2: rgb(0, 52, 59);
+    --accent: #1f6feb;
+    --gold: #ffb700;
+    --text: #e6edf3;
+    --muted: #8b9bb0;
+    --red: #fd0d00;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: linear-gradient(180deg, #08111b, #0b1623);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+}
+
+/* NAV */
+.nav {
+    background: #0c1a28;
+    border-bottom: 1px solid #1e2d3d;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 900;
+    background: linear-gradient(90deg, #7cff00, #ffb700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.nav-links span.active {
+    color: white;
+}
+
+.nav-links a.discord-btn {
+    background: #7289da;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+}
+
+.nav-links a.discord-btn:hover {
+    opacity: .85;
+}
+
+/* TABLE */
+.container {
+    padding: 40px;
+}
+
+.header-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 120px 500px;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.card {
+    display: grid;
+    grid-template-columns: 80px 1fr 120px 500px;
+    align-items: center;
+    background: var(--card);
+    border: 1px solid #1e2d3d;
+    border-radius: 14px;
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    transition: .2s;
+    cursor: pointer;
+}
+
+.card:hover {
+    background: var(--card2);
+}
+
+.rank {
+    font-size: 30px;
+    font-weight: 900;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.15);
+}
+
+.player {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.player img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+}
+
+.player-name {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.title {
+    font-size: 14px;
+    color: var(--gold);
+    font-weight: 700;
+}
+
+.points {
+    color: var(--muted);
+}
+
+.region {
+    background: rgba(248, 81, 73, .15);
+    color: var(--red);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 800;
+    text-align: center;
+    width: 60px;
+}
+
+.tiers {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.tier {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+}
+
+.icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #1e2d3d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #2a3f55;
+}
+
+.badge {
+    margin-top: 4px;
+    font-weight: 900;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #1c1910;
+    color: var(--gold);
+}
+
+/* MODAL */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 10, 20, 0.75);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: .25s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    width: 380px;
+    background: #0f1e2d;
+    border: 1px solid #1e2d3d;
+    border-radius: 18px;
+    padding: 30px 25px;
+    transform: scale(.85);
+    opacity: 0;
+    transition: .25s cubic-bezier(.2, .8, .2, 1);
+    position: relative;
+}
+
+.modal-overlay.active .modal {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #16293d;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.modal-avatar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.modal-avatar img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid var(--gold);
+}
+
+.modal-name {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.modal-title {
+    text-align: center;
+    font-size: 13px;
+    background: #1c1910;
+    color: var(--gold);
+    padding: 4px 10px;
+    border-radius: 8px;
+    width: fit-content;
+    margin: 8px auto;
+}
+
+.modal-section {
+    margin-top: 20px;
+}
+
+.modal-position {
+    background: #13283c;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+}
