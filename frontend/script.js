@@ -1,112 +1,109 @@
-// Data State
-let keys = JSON.parse(localStorage.getItem('strength_keys')) || [];
+let keys = JSON.parse(localStorage.getItem('str_keys')) || [];
 
-// Cursor Tracking
-document.addEventListener('mousemove', (e) => {
-    const dot = document.getElementById('cursor-dot');
-    const outline = document.getElementById('cursor-outline');
+// --- Cursor Logic ---
+const dot = document.getElementById('cursor-dot');
+const outline = document.getElementById('cursor-outline');
+let mX = 0, mY = 0, oX = 0, oY = 0;
 
-    dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-
-    // Smooth trail
-    requestAnimationFrame(() => {
-        outline.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-    });
+window.addEventListener('mousemove', e => {
+    mX = e.clientX;
+    mY = e.clientY;
+    dot.style.transform = `translate3d(${mX}px, ${mY}px, 0)`;
 });
 
-// LOGIN LOGIC - THE FIX
-function login() {
-    const user = document.getElementById('login-username').value;
-    const pass = document.getElementById('login-password').value;
+function animateCursor() {
+    oX += (mX - oX) * 0.15;
+    oY += (mY - oY) * 0.15;
+    outline.style.transform = `translate3d(${oX}px, ${oY}px, 0)`;
+    requestAnimationFrame(animateCursor);
+}
+animateCursor();
 
-    // Use admin / admin123
-    if (user === "admin" && pass === "admin123") {
-        const loginScreen = document.getElementById('login-screen');
-        const dashboard = document.getElementById('dashboard');
+// --- Profile Logic ---
+function updateName(val) {
+    localStorage.setItem('op_name', val);
+    document.getElementById('side-pfp-init').innerText = val.charAt(0).toUpperCase();
+}
 
-        // Start Transition
-        loginScreen.style.opacity = '0';
-        loginScreen.style.transform = 'scale(1.1)';
+function updatePFP(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            const url = e.target.result;
+            document.getElementById('main-pfp').innerHTML = `<img src="${url}" class="w-full h-full object-cover">`;
+            document.getElementById('side-pfp').innerHTML = `<img src="${url}" class="w-full h-full object-cover">`;
+            localStorage.setItem('pfp_data', url);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 
+// --- Dashboard Init (200 Settings) ---
+function init() {
+    const container = document.getElementById('page-settings');
+    const params = ["Kernel Protection", "HWID Spoofer", "Anti-Debug", "RSA Handshake", "Packet Filter"];
+    let html = '';
+    for (let i = 1; i <= 200; i++) {
+        html += `<div class="card p-5 flex justify-between items-center">
+            <div><p class="text-sm font-bold">${params[i % 5]} 0x${i}</p><p class="text-[9px] text-blue-500 font-black">ENCRYPTED</p></div>
+            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+        </div>`;
+    }
+    container.innerHTML = html;
+    render();
+}
+
+// --- Core App Functions ---
+function handleLogin() {
+    const u = document.getElementById('user').value;
+    const p = document.getElementById('pass').value;
+    if (u === "admin" && p === "admin123") {
+        document.getElementById('login-box').classList.add('hidden');
+        document.getElementById('intro-box').classList.remove('hidden');
         setTimeout(() => {
-            loginScreen.classList.add('hidden');
-
-            // Show Dashboard with Animation
-            dashboard.classList.remove('pointer-events-none');
-            dashboard.style.opacity = '1';
-            dashboard.style.transform = 'translateY(0)';
-
-            initDashboard();
-        }, 600);
-    } else {
-        const card = document.querySelector('.login-card');
-        card.classList.add('shake-anim');
-        setTimeout(() => card.classList.remove('shake-anim'), 500);
+            document.getElementById('auth-layer').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('dashboard').style.opacity = '1';
+            init();
+        }, 1500);
     }
 }
 
-function initDashboard() {
-    renderKeys();
-    load50Settings();
+function showPage(p) {
+    document.querySelectorAll('.page-content').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+    document.getElementById('page-' + p).classList.remove('hidden');
+    document.getElementById('btn-' + p).classList.add('active');
+    document.getElementById('title').innerText = p.toUpperCase();
 }
 
-function load50Settings() {
-    const grid = document.getElementById('page-settings');
-    grid.innerHTML = '';
-    for (let i = 1; i <= 50; i++) {
-        grid.innerHTML += `
-            <div class="card p-5 flex items-center justify-between hover:bg-white/[0.03]">
-                <div>
-                    <p class="font-bold text-sm tracking-tight">ENCRYPTION_PARAMETER_0${i}</p>
-                    <p class="text-[9px] text-blue-500 font-bold uppercase tracking-widest">Core Security Config</p>
-                </div>
-                <div class="relative inline-block w-10 h-6">
-                    <input type="checkbox" checked class="peer appearance-none w-10 h-6 bg-white/10 rounded-full checked:bg-blue-600 transition-all cursor-pointer">
-                    <span class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all peer-checked:left-5 pointer-events-none"></span>
-                </div>
-            </div>
-        `;
-    }
+function addKey() {
+    keys.push('KEY-' + Math.random().toString(36).substr(2, 9).toUpperCase());
+    localStorage.setItem('str_keys', JSON.stringify(keys));
+    render();
 }
 
-function showPage(pageId) {
-    document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
-    document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
-
-    document.getElementById('page-' + pageId).classList.remove('hidden');
-    document.getElementById('nav-' + pageId).classList.add('active');
-    document.getElementById('page-title').innerText = pageId.toUpperCase();
+function render() {
+    document.getElementById('key-count').innerText = keys.length;
+    document.getElementById('key-list').innerHTML = keys.map((k, i) => `
+        <tr class="border-b border-white/5">
+            <td class="p-6 text-blue-400 font-mono">${k}</td>
+            <td class="p-6 text-right"><button onclick="keys.splice(${i},1);render()" class="text-red-500">DEL</button></td>
+        </tr>`).join('');
 }
 
-function generateKey() {
-    const newKey = 'STRENGTH-' + Math.random().toString(36).substr(2, 10).toUpperCase();
-    keys.push({ id: newKey, user: 'ROOT_ADMIN' });
-    localStorage.setItem('strength_keys', JSON.stringify(keys));
-    renderKeys();
+// --- Chatbot ---
+function toggleChat() { document.getElementById('chat-window').classList.toggle('hidden'); }
+function sendChat() {
+    const input = document.getElementById('chat-in');
+    const box = document.getElementById('chat-msgs');
+    if (!input.value) return;
+    box.innerHTML += `<div class="text-white/40 italic">User: ${input.value}</div>`;
+    let res = "Kernel Command Processed.";
+    if (input.value.includes("hi")) res = "System online, Operator.";
+    setTimeout(() => {
+        box.innerHTML += `<div class="bg-blue-600/20 p-2 rounded-lg">AI: ${res}</div>`;
+        box.scrollTop = box.scrollHeight;
+    }, 400);
+    input.value = '';
 }
-
-function renderKeys() {
-    const tbody = document.getElementById('key-table-body');
-    const total = document.getElementById('stat-total');
-    if (!tbody) return;
-
-    total.innerText = keys.length;
-    tbody.innerHTML = keys.map((k, i) => `
-        <tr class="border-t border-white/5 hover:bg-white/[0.02] transition-all">
-            <td class="p-6 font-bold text-white/50">${k.user}_${i + 100}</td>
-            <td class="p-6"><span class="font-mono text-blue-400 bg-blue-400/5 px-3 py-1 rounded-lg border border-blue-400/20">${k.id}</span></td>
-            <td class="p-6"><span class="flex items-center gap-2 text-emerald-400 font-black text-[10px] tracking-widest uppercase"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981] animate-pulse"></span> Authorized</span></td>
-            <td class="p-6 text-right">
-                <button onclick="deleteKey(${i})" class="w-10 h-10 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all"><i class="fas fa-trash-alt"></i></button>
-            </td>
-        </tr>
-    `).join('');
-}
-
-function deleteKey(i) {
-    keys.splice(i, 1);
-    localStorage.setItem('strength_keys', JSON.stringify(keys));
-    renderKeys();
-}
-
-function logout() { location.reload(); }

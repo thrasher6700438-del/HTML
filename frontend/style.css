@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-
 * {
     margin: 0;
     padding: 0;
@@ -8,174 +6,142 @@
 }
 
 body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
     background: #02040a;
+    font-family: sans-serif;
 }
 
-/* Cursor styling */
-#cursor-dot,
+#cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    z-index: 10001;
+    pointer-events: none;
+    margin: -3px 0 0 -3px;
+}
+
 #cursor-outline {
     position: fixed;
     top: 0;
     left: 0;
+    width: 34px;
+    height: 34px;
+    border: 1px solid #3b82f6;
+    border-radius: 50%;
+    z-index: 10000;
     pointer-events: none;
-    z-index: 99999;
-}
-
-#cursor-dot {
-    width: 6px;
-    height: 6px;
-    background: white;
-    border-radius: 50%;
-}
-
-#cursor-outline {
-    width: 40px;
-    height: 40px;
-    border: 1.5px solid rgba(59, 130, 246, 0.5);
-    border-radius: 50%;
     margin: -17px 0 0 -17px;
 }
 
-/* Inputs */
+.card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+}
+
 .modern-input {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
-    padding: 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 12px;
     color: white;
-    outline: none;
-    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.modern-input:focus {
-    border-color: #3b82f6;
-    background: rgba(59, 130, 246, 0.08);
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.1);
-}
-
-/* Buttons */
-.login-btn {
     width: 100%;
-    background: white;
-    color: black;
-    font-weight: 900;
-    padding: 18px;
-    border-radius: 18px;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    transition: 0.4s;
+    outline: none;
 }
 
-.login-btn:hover {
+.login-btn,
+.action-btn-primary {
     background: #3b82f6;
     color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(59, 130, 246, 0.3);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
 }
 
-.action-btn-primary {
-    background: linear-gradient(to right, #2563eb, #06b6d4);
-    color: white;
-    font-weight: 900;
-    padding: 16px 32px;
-    border-radius: 16px;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
-    transition: 0.3s;
-}
-
-.action-btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.4);
-}
-
-/* Sidebar Nav */
 .nav-link {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 16px 24px;
-    border-radius: 16px;
-    color: rgba(255, 255, 255, 0.3);
-    font-weight: 700;
-    font-size: 14px;
+    padding: 15px;
+    color: #475569;
+    font-weight: bold;
+    border-radius: 12px;
     transition: 0.3s;
-}
-
-.nav-link:hover {
-    color: white;
-    background: rgba(255, 255, 255, 0.03);
+    text-align: left;
 }
 
 .nav-link.active {
     background: #3b82f6;
     color: white;
-    box-shadow: 0 15px 30px rgba(59, 130, 246, 0.2);
 }
 
-/* Cards */
 .stat-card {
-    background: rgba(255, 255, 255, 0.02);
     padding: 40px;
-    border-radius: 30px;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 30px;
 }
 
 .stat-label {
-    color: rgba(255, 255, 255, 0.2);
-    font-weight: 800;
     font-size: 10px;
-    letter-spacing: 0.2em;
+    opacity: 0.5;
     text-transform: uppercase;
-    margin-bottom: 10px;
 }
 
 .stat-value {
     font-size: 4rem;
     font-weight: 900;
-    letter-spacing: -0.05em;
-    line-height: 1;
 }
 
-.card {
-    background: rgba(255, 255, 255, 0.01);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 24px;
+.switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
 }
 
-/* Animations */
-.shake-anim {
-    animation: shake 0.5s ease-in-out;
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
-@keyframes shake {
-
-    0%,
-    100% {
-        transform: translateX(0);
-    }
-
-    25% {
-        transform: translateX(-10px);
-    }
-
-    75% {
-        transform: translateX(10px);
-    }
+.slider {
+    position: absolute;
+    inset: 0;
+    background: #1e293b;
+    border-radius: 30px;
+    transition: 0.4s;
 }
 
-.page-content {
-    animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.4s;
 }
 
-@keyframes fadeInUp {
+input:checked+.slider {
+    background: #3b82f6;
+}
+
+input:checked+.slider:before {
+    transform: translateX(20px);
+}
+
+.animate-page {
+    animation: slideUp 0.5s ease-out forwards;
+}
+
+@keyframes slideUp {
     from {
         opacity: 0;
-        transform: translateY(40px);
+        transform: translateY(20px);
     }
 
     to {
