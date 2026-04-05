@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style1.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="calc"></div>
+    <div class="title">Calculator</div>
+    <div class="grid"></div>
+    <!--Display-->
+    <input id="result" type="text"  placeholder="Result" readonly>
+    <button class="btn op" onclick="setScreenValue('+')">+</button>
+    <!--row 1-->
+
+    <button class="btn" onclick="setScreenValue('1')">1</button>
+    <button class="btn" onclick="setScreenValue('2')">2</button>
+    <button class="btn" onclick="setScreenValue('3')">3</button>
+    <button class="btn op" onclick="setScreenValue('-')">-</button>
+
+    <!--row 2-->
+    <button class="btn" onclick="setScreenValue('4')">4</button>
+
+    <button class="btn" onclick="setScreenValue('5')">5</button>
+    <button class="btn" onclick="setScreenValue('6')">6</button>
+    <button class="btn op" onclick="setScreenValue('*')">x</button>
+
+
+    <!--row 3-->
+    <button class="btn" onclick="setScreenValue('7')">7</button>
+    <button class="btn" onclick="setScreenValue('8')">8</button>
+    <button class="btn" onclick="setScreenValue('9')">9</button>
+    <button class="btn op" onclick="setScreenValue('/')">/</button>
+    <!--row 4-->
+    <button class="btn" onclick="setScreenValue('%')">%</button>
+    <button class="btn" onclick="setScreenValue('0')">0</button>
+    <button class="btn" onclick="setScreenValue('.')">.</button>
+    <button class="btn op" onclick="calculateResult()">=</button>
+</div>
+
+<button class="clear" onclick="clearScreen()">CLEAR</button>
+</div>
+
+<script src="app.js"></script>
+
+
+
+
+
+
+</body>
+</html>
